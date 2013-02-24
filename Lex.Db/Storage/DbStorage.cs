@@ -4,11 +4,21 @@ using System.IO;
 using System.IO.IsolatedStorage;
 using System.Windows;
 #endif
+#if NETFX_CORE
+using Windows.Storage;
+#endif
 
 namespace Lex.Db
 {
   class DbStorage : IDbStorage
   {
+#if NETFX_CORE
+      public IDbSchemaStorage OpenSchema(string path, StorageFolder storageFolder)
+      {
+          return new WindowsStorage.DbSchemaStorage(path, storageFolder);
+      }
+#endif
+
 #if SILVERLIGHT
     readonly IsolatedStorageFile _storage = IsolatedStorageFile.GetUserStoreForApplication();
 #endif

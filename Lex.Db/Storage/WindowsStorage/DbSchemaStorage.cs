@@ -6,13 +6,19 @@ namespace Lex.Db.WindowsStorage
 {
   class DbSchemaStorage : IDbSchemaStorage
   {
-    static readonly StorageFolder _localData = ApplicationData.Current.LocalFolder;
+    readonly StorageFolder _localData;
     readonly List<DbTableStorage> _tables = new List<DbTableStorage>();
     readonly string _path;
 
     public DbSchemaStorage(string path)
+        : this(path, ApplicationData.Current.LocalFolder)
+    {
+    }
+
+    public DbSchemaStorage(string path, StorageFolder localData)
     {
       _path = path;
+      _localData = localData;
     }
 
     public string Path { get { return _path; } }

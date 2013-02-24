@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+#if NETFX_CORE
+using Windows.Storage;
+#endif
 
 namespace Lex.Db
 {
@@ -26,6 +29,13 @@ namespace Lex.Db
     {
       _schema = Storage.OpenSchema(path);
     }
+
+#if NETFX_CORE
+    public DbInstance(string path, StorageFolder storageFolder)
+    {
+        _schema = Storage.OpenSchema(path, storageFolder);
+    }
+#endif
 
     void CheckNotSealed()
     {
